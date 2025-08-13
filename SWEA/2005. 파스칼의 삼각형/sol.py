@@ -33,10 +33,6 @@ T = int(input())
 for test_case in range(1, T+1):
     line = int(input())
     result = make_triangle(line)
-    result_print = []
-    for list_ in result:
-        for num in list_:
-            result_print.append(num)
-            # result_print.append(' ')
-        result_print.append('\n')
-    print(f"#{test_case}\n", ' '.join(map(str, result_print)))
+    print(f"#{test_case}")  # 테스트 케이스 번호만 먼저 출력
+    for row in result:  # 각 행을 개별적으로 처리
+       print(' '.join(map(str, row)))  # 행 내 숫자들만 공백으로 연결하여 출력
