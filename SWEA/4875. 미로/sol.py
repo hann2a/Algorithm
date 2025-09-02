@@ -35,7 +35,7 @@ def dfs(cr, cc):
             if  grid[nr][nc] != 1 and not visited[nr][nc]:
                 visited[nr][nc] = True
                 dfs(nr, nc)
-                visited[nr][nc] = False 
+    visited[cr][cc] = False 
 
 T = int(input().strip())
 for t in range(1, T+1):
