@@ -1,38 +1,38 @@
 import sys
-import itertools
+from itertools import permutations
 
 sys.stdin = open('input.txt', 'r')
 
-def calc_battery(all_path):
-    global min_consume
-    now_consume = 0
-
-    for i in range(1, N+1):
-        start, end = all_path[i-1], all_path[i]
-        now_consume += arr[start][end]
-
-    if now_consume < min_consume:
-        min_consume = now_consume
-    return
-
 T = int(input())
-
-for t in range(1, T+1):
+for t in range(1, 1+T):
     N = int(input())
-    arr = [list(map(int, input().split())) for _ in range(N)]
+    battery_table = [list(map(int, input().split())) for _ in range(N)]
 
-    min_consume = float('inf')
+    # 방문할 관리 구역 목록 (사무실 0 제외)
+    areas_to_visit = [i for i in range(1, N)]
+    min_battery = float('inf')
 
-    # 한 조합당 계산
-    for subset in itertools.permutations(range(2, N+1), N-1):
-        all_path = [1]
-        for i in subset:
-            all_path.append(i)
+    # 1부터 N-1까지 관리 구역의 모든 방문 순서(순열) 생성
+    for path in permutations(areas_to_visit, N-1):
+        # 각 경로의 배터리 사용량 계산
+        current_battery = 0
 
-        all_path.append(1)
+        # 1. 사무실(0) 첫 번째 구역
+        current_battery += battery_table[0][path[0]]
 
-        # <-- 모든 경로 만듦
+        # 2. 각 구역 순차 방문
+        for i in range(N-2):
+            current_battery += battery_table[path[i]][path[i+1]]
 
-        calc_battery(all_path)
+            # 가지치기
+            if current_battery >= min_battery:
+                break
+        # 가지치기로 중단된 경우가 아니라면 끝까지 계산
+        else:
+            # 3. 마지막 구역 -> 사무실(0)
+            current_battery += battery_table[path[-1]][0]
 
-    print(f'#{t} {min_consume}')
+            # 최소값 갱신
+            min_battery = min(min_battery, current_battery)
+
+    print(f'#{t} {min_battery}')
