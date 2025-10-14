@@ -1,5 +1,5 @@
-import sys
-from collections import deque
+import sys 
+from collections import deque 
 
 sys.stdin = open('input.txt', 'r')
 
@@ -14,5 +14,5 @@ for t in range(1, T+1):
     while count < M:
         dq.rotate(-1)
         count += 1
-    
-    print(f'#{t} {dq[len(dq)-1]}')
+
+    print(f'#{t} {dq[0]}')
